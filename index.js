@@ -9,15 +9,23 @@ app.post("/whatsapp/webhook", (req, res) => {
   const incoming = (req.body.Body || "").trim().toLowerCase();
 
   const twiml = new twilio.twiml.MessagingResponse();
-  console.log(incoming, req.body);
-
+  
   if (["hi", "hello", "hey"].includes(incoming)) {
     twiml.message(`Hello ${req.body.ProfileName}, How can I help?`);
   } else {
     twiml.message("I got your message ✅");
   }
 
+  if (["help", "support", "contact"].includes(incoming)) {
+    twiml.message("You can reach out to us at henilcode@gmail.com or call us at 9090909090.");
+  }else{
+    twiml.message("I got your message ✅");
+  }
+
   res.type("text/xml").send(twiml.toString());
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 app.listen(3000, () => console.log("Server running on 3000"));
